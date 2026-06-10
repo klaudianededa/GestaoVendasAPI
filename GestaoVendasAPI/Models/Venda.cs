@@ -19,5 +19,6 @@ namespace GestaoVendasAPI.Models
 
         [Column(TypeName = "decimal(18,2)")] //18 caracteres, 2 após a vírgula
         public decimal ValorTotal { get; set; }
+        public ICollection<ItemVenda>? Itens { get; set; }
     }
 }

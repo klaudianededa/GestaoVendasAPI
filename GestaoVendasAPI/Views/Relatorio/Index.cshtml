@@ -1,0 +1,38 @@
+﻿@model IEnumerable<GestaoVendasAPI.Models.Venda> 
+@{
+    ViewData["Title"] = "Relatório de Vendas";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>📊 Relatório de Vendas</h2>
+        <a href="/Relatorio/GerarPdf" class="btn btn-danger shadow-sm fw-bold">
+    📄 Baixar Relatório em PDF
+</a> </div>
+    
+    <div class="table-responsive shadow-sm rounded-3 border">
+        <table class="table table-striped table-hover mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Cliente</th>
+                    <th>Data</th>
+                    <th>Qtd de Itens</th>
+                    <th>Valor Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var venda in Model)
+                {
+                    <tr>
+                        <td class="fw-bold">@venda.Id</td>
+                        <td>@venda.Cliente?.Nome</td>
+                        <td>@venda.DataVenda.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>@venda.Itens?.Sum(i => i.Quantidade)</td>
+                        <td class="text-success fw-bold">@venda.ValorTotal.ToString("C")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

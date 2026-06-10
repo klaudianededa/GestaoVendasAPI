@@ -4,9 +4,13 @@ using GestaoVendasAPI.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllersWithViews() //Além de processar dados, prepare-se para renderizar arquivos de interface (Views)
+    .AddJsonOptions(options =>
+    {
+        // Ensina o tradutor de JSON a ignorar loops infinitos de relacionamentos
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    });
 
-builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -35,6 +39,10 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.MapControllers();
+app.UseStaticFiles(); //Pode liberar o envio de arquivos de design (CSS), scripts (JS) e imagens para o navegador". Sem isso, o Bootstrap 5 nunca vai carregar.
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
